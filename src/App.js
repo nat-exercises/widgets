@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Accordion from "./components/accordion/Accordion";
 import Search from "./components/search/Search";
 import Dropdown from "./components/dropdown/Dropdown";
 import Translate from "./components/translate/Translate";
+import Route from "./components/Route/Route";
 
 const items = [
   {
@@ -56,13 +57,28 @@ const showTranslate = () => {
     return <Translate />;
   }
 };
+
 const App = () => {
+  const [selected, setSelected] = useState(options[0]);
   return (
     <div>
-      {showAccordion()}
-      {showList()}
-      {showDropdown()}
-      {showTranslate()}
+      <Route path="/">
+        <Accordion items={items} />
+      </Route>
+      <Route path="/list">
+        <Search />
+      </Route>
+      <Route path="/dropdown">
+        <Dropdown
+          label="Select a color"
+          options={options}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
+      </Route>
+      <Route path="/translate">
+        <Translate />
+      </Route>
     </div>
   );
 };
